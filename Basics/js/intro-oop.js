@@ -9,6 +9,16 @@ class Animal {
     }
 }
 
+class Mamifero extends Animal {
+    constructor(nombre, tipo, detalles) {
+        this.super(nombre, tipo);
+        this.detalles = detalles;
+    }
+
+    super(nombre, tipo)
+}
+
 let animal = new Animal("León", "Mamifero");
 
 console.log(animal.consultarDetalles());
+

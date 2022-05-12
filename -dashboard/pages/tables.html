@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" onload="showActors()">
 
 <head>
   <meta charset="utf-8" />
@@ -360,7 +360,7 @@
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Authors table</h6>
-              <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="addAuthor()">Add Author</button>
+              <button type="button" class="btn btn-outline-primary btn-sm mb-0" onclick="location.href = '../pages/authorForm.html';">Add Author</button>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -879,6 +879,7 @@
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="../assets/js/add-author.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

@@ -1,3 +1,34 @@
+function showActors() {
+    $(document).ready(function () {
+
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            url: 'http://localhost:3006/authors',
+            success: function (data) {
+                const authors = data.authors;
+                console.log(authors);
+                let newAuthor;
+                authors.forEach(author => {
+                    newAuthor = new Author(
+                        author.photo, 
+                        author.name,
+                        author.email,
+                        author.position,
+                        author.subPosition,
+                        author.status,
+                        author.employeeDate
+                    );
+                    
+                    insertAuthor(newAuthor);
+                });
+            }
+        });
+    });
+}
+
+showActors();
+
 let Authors = [];
 
 class Author {
@@ -42,10 +73,26 @@ function insertAuthor(newAuthor) {
         <p class="text-xs font-weight-bold mb-0">${newAuthor.position}</p>
         <p class="text-xs text-secondary mb-0">${newAuthor.subPosition}</p>
     </td>
+    `;
+
+    if(newAuthor.status === "Online") {
+        insertAuthor.innerHTML += `
         <td class="align-middle text-center text-sm">
         <span class="badge badge-sm bg-gradient-success">${newAuthor.status}</span>
-    </td>
-        <td class="align-middle text-center">
+        </td>
+        `;
+    }
+
+    else{
+        insertAuthor.innerHTML += `
+        <td class="align-middle text-center text-sm">
+        <span class="badge badge-sm bg-gradient-secondary">${newAuthor.status}</span>
+        </td>
+        `;
+    }
+
+    insertAuthor.innerHTML += `
+    <td class="align-middle text-center">
         <span class="text-secondary text-xs font-weight-bold">${newAuthor.employeeDate}</span>
     </td>
     <td class="align-middle">
@@ -57,28 +104,42 @@ function insertAuthor(newAuthor) {
 }
 
 function addAuthor() {
-    let newAuthor = new Author(
-        "team-2.jpg", 
-        "Ricardo Orozco",
-        "ricardo-orozco@creative-tim.com",
-        "Manager",
-        "Executive",
-        "Online",
-        "23/04/18"
-    );
-    
-    newAuthor.addAuthor(
-        "team-2.jpg", 
-        "Ricardo Orozco",
-        "ricardo-orozco@creative-tim.com",
-        "Manager",
-        "Executive",
-        "Online",
-        "23/04/18"
-    );
-    
-    insertAuthor(newAuthor);
+    let _nombre = nombre.value;
+    let _email = email.value;
+    let _position = position.value;
+    let _subPosition = subPosition.value;
+    let estatus = estatus.value;
+    let _employeeDate = employeeDate.value.toString();
 
-    console.log(newAuthor);
-    console.log(Authors);
+    let newAuthor = new Author(
+        "team-3.jpg", 
+        _nombre,
+        _email,
+        _position,
+        _subPosition,
+        _estatus,
+        _employeeDate
+    );
+
+    $.ajax({
+        method: 'POST',
+        dataType: 'json',
+        contentType: "application/json",
+        url: 'http://localhost:3006/authors',
+        data: JSON.stringify({
+            photo: newAuthor.photo,
+            name: newAuthor.name,
+            email: newAuthor.email,
+            position: newAuthor.position,
+            subPosition: newAuthor.subPosition,
+            status: newAuthor.status,
+            employeeDate: newAuthor.employeeDate
+        }),
+        success: function (data) {
+            console.log(data);
+            alert('Author added');
+            insertAuthor(data);
+            showActors();
+        }
+    });
 }

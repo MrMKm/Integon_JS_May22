@@ -11,22 +11,20 @@ function AccesoAPI() {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             const data = JSON.parse(this.response);
-            showAlumnos(data);
             console.log(JSON.stringify(data));
+
+            let list = document.getElementById("alumnosList");
+
+            let li = document.createElement("li");
+
+            data.alumnos.forEach(alumno => {
+                console.log(alumno.name);
+                li.innerText = alumno.name + ' ' + alumno.apellido;
+                list.appendChild(li);
+            });
         }
     }
     xhttp.send();
-}
-
-function showAlumnos(data) {
-    let table = document.getElementById("alumnosList");
-
-    let alumno = document.createElement("li");
-
-    data.items.forEach(function(item) {
-        alumno.innerText = `${item.name}`;
-        table.appendChild(item);
-    });
 }
 
 AccesoAPI();

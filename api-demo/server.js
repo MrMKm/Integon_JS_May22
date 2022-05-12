@@ -1,6 +1,7 @@
 const {request, response} = require("express");
 const express = require("express");  // Requerimos el modulo de express
 const mongo = require("mongodb").MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 
 const app= express(); // Definimos una app de express
@@ -12,7 +13,7 @@ app.use(cors({
 
 const url = "mongodb://localhost:27017";
 
-let db, alumnos
+let db, alumnos, authors, users
 mongo.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -25,6 +26,8 @@ mongo.connect(url, {
     db = client.db("CursoJS");
     console.log("Conectado a la DB");
     alumnos = db.collection("alumnos");
+    authors = db.collection("authors");
+    users = db.collection("users");
 });
 
 
@@ -46,6 +49,20 @@ app.get("/alumnos", (request, response) => {
     });
 });
 
+app.get("/alumno/:id", (request, response) => {
+    console.log("Alumno");
+    let alumnoID = request.params.id;
+    alumnos.findOne({_id:ObjectId(alumnoID)}, function(err,alumno) {
+        if(err){
+            console.log(err);
+            response.status(500).json({err:err});
+            return;
+        }
+
+        response.status(200).json({alumno:alumno});
+    });
+});
+
 app.post("/alumnos", (request, response) => {
     console.log("Insert Alumno");
     alumnos.insertOne(
@@ -63,6 +80,56 @@ app.post("/alumnos", (request, response) => {
             response.status(200).json({ok:true});
         }
     );
+});
+
+app.get("/authors", (request, response) => {
+    console.log("Authors");
+    authors.find().toArray((err,items)=>{
+        if(err){
+            console.log(err);
+            response.status(500).json({err:err});
+            return;
+        }
+
+        response.status(200).json({authors:items});
+    });
+});
+
+app.post("/authors", (request, response) => {
+    console.log("Insert author");
+    console.log(request.body);
+    authors.insertOne(
+        {
+            photo : request.body.photo,
+            name : request.body.name,
+            email : request.body.email,
+            position : request.body.position,
+            subPosition : request.body.subPosition,
+            status : request.body.status,
+            employeeDate : request.body.employeeDate,
+        },
+        (err, result) => {
+            if(err){
+                console.log(err);
+                response.status(500).json({err:err});
+                return;
+            }
+            response.status(200).json({ok:true});
+        }
+    );
+});
+
+app.get("/users", (request, response) => {
+    console.log("Users");
+    users.find().toArray((err,items)=>{
+        if(err){
+            console.log(err);
+            response.status(500).json({err:err});
+            return;
+        }
+
+        response.status(200).json({users:items});
+    });
 });
 
 app.listen(3006, () => {

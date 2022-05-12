@@ -1,9 +1,15 @@
 const {request, response} = require("express");
 const express = require("express");  // Requerimos el modulo de express
 const mongo = require("mongodb").MongoClient;
+const cors = require('cors');
 
 const app= express(); // Definimos una app de express
-app.use(express.json())
+
+app.use(express.json()) //Middleware
+app.use(cors({
+    origin: '*'
+}));
+
 const url = "mongodb://localhost:27017";
 
 let db, alumnos

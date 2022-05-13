@@ -70,7 +70,7 @@ function insertAuthor(newAuthor) {
         </div>
     </td>
     <td>
-        <p class="text-xs font-weight-bold mb-0">${newAuthor.position}</p>
+        <p id="position" class="text-xs font-weight-bold mb-0">${newAuthor.position}</p>
         <p class="text-xs text-secondary mb-0">${newAuthor.subPosition}</p>
     </td>
     `;

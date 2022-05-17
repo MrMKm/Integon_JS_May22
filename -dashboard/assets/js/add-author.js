@@ -104,12 +104,20 @@ function insertAuthor(newAuthor) {
 }
 
 function addAuthor() {
-    let _nombre = nombre.value;
-    let _email = email.value;
-    let _position = position.value;
-    let _subPosition = subPosition.value;
-    let estatus = estatus.value;
-    let _employeeDate = employeeDate.value.toString();
+    // let _nombre = nombre.value;
+    // let _email = email.value;
+    // let _position = position.value;
+    // let _subPosition = subPosition.value;
+    // let estatus = estatus.value;
+    // let _employeeDate = employeeDate.value.toString();
+
+    const _nombre = $('#nombre').val();
+    const _email = $('#email').val();
+    const _position = $('#position').val();
+    const _subPosition = $('#subPosition').val();
+    const _estatus = $('#estatus').val();
+    const _employeeDate = $('#employeeDate').val();
+
 
     let newAuthor = new Author(
         "team-3.jpg", 
